@@ -1,25 +1,23 @@
-# Toggle: chat_template_kwargs.thinking_mode = enabled|disabled
-# Live POST /v1/chat/completions on MiniMax-M3 (2026-10-11): omitted/enabled return a separate
-# reasoning field; disabled removes it (enable_thinking alias behaves identically).
-# Docs: https://docs.vllm.ai/projects/ascend/en/latest/tutorials/models/MiniMax-M3.html
-# Text-only, limits, pricing: supported-models + GET /v1/models (1048576/1048576; 0.60/2.40+0.06).
-# Live: prompt + max_tokens enforced <= 1048576 (context_length_exceeded beyond), so 1048576 is the served cap.
+# Retired: SambaNova no longer lists MiniMax-M3 in GET /v1/models or the supported-models page, and a
+#   request with model=MiniMax-M3 returns model=MiniMax-M3.1-Flash (live 2026-10-31). Keep the old ID as
+#   a deprecated alias of the replacement entry.
+# Effort: reasoning_effort = low|medium|high|xhigh|max; thinking cannot be disabled.
+# Limits/pricing: same as MiniMax-M3.1-Flash (1048576/1048576; 0.30 input / 1.20 output / 0.03 cached).
 schema = 2
-base_model = "minimax/MiniMax-M3"
-
-[modalities]
-input = ["text"]
-output = ["text"]
+base_model = "minimax/MiniMax-M3.1-Flash"
+name = "MiniMax-M3"
+status = "deprecated"
 
 [capabilities]
-reasoning = { supported = true, toggle = true }
+reasoning = { supported = true, effort = ["low", "medium", "high", "xhigh", "max"] }
 
 [limit]
+context = 1_048_576
 output = 1_048_576
 
 [cost.text.input]
-price = 0.6
-cache = { read = 0.06 }
+price = 0.3
+cache = { read = 0.03 }
 
 [cost.text.output]
-price = 2.4
+price = 1.2

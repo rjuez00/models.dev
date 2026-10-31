@@ -1,0 +1,15 @@
+# Effort: reasoning_effort = low|medium|high
+# Live POST /v1/chat/completions, 2026-10-31: the API rejects max/xhigh with a 400 listing
+#   low|medium|high; low/high changed reasoning length. Thinking is always on.
+# Internal pre-release: not returned by GET /v1/models or listed on the supported-models page yet
+#   (checked 2026-10-31); context verified live at 1,048,576 (context_length_exceeded above it).
+#   No published price, so no cost override is authored.
+# Text-only: an image_url message is rejected as not allowed for text-only models.
+schema = 2
+base_model = "zhipuai/glm-5.3"
+
+[capabilities]
+reasoning = { supported = true, effort = ["low", "medium", "high"] }
+
+[limit]
+context = 1_048_576

@@ -1,0 +1,28 @@
+# Effort: reasoning_effort = low|medium|high|xhigh|max
+# Live POST /v1/chat/completions, 2026-10-31: the API's own 400 response lists these five values;
+#   low/medium/high changed reasoning length and max matched the default. Thinking cannot be disabled
+#   (chat_template_kwargs.thinking_mode = disabled returns "This model always thinks").
+# Deployment: Preview, Text + Image (base64 data URL accepted) per
+#   https://docs.sambanova.ai/docs/en/models/sambacloud-models
+# Limits/pricing: GET https://api.sambanova.ai/v1/models (context_length/max_completion_tokens 1048576);
+#   https://cloud.sambanova.ai/plans/pricing (input 0.30, cached input 0.03, output 1.20 USD/MTok).
+schema = 2
+base_model = "minimax/MiniMax-M3.1-Flash"
+
+[modalities]
+input = ["text", "image"]
+output = ["text"]
+
+[capabilities]
+reasoning = { supported = true, effort = ["low", "medium", "high", "xhigh", "max"] }
+
+[limit]
+context = 1_048_576
+output = 1_048_576
+
+[cost.text.input]
+price = 0.3
+cache = { read = 0.03 }
+
+[cost.text.output]
+price = 1.2
